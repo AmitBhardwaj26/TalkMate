@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon backend/server.js"
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "backend": "nodemon backend/server.js",
+    "frontend": "cd frontend && npm start"
   },
   "author": "Amit Bhardwaj",
   "license": "ISC",
@@ -16,6 +18,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "colors": "^1.4.0",
+    "concurrently": "^8.2.2",
     "env": "^0.0.2",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
