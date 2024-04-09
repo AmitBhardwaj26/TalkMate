@@ -82,7 +82,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
     const groupChat = await Chat.create({
       chatName: req.body.name,
       users: users,
-      isGroupChat: true,
+      isGroupchat: true,
       groupAdmin: req.uses,
     });
     const fullGroupChat = await Chat.findOne({ _id: groupChat._id })

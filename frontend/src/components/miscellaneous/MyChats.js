@@ -10,6 +10,7 @@ import ChatLoading from "./ChatLoading";
 import { Stack } from "@chakra-ui/layout";
 import { getSender } from "../../config/ChatLogic";
 import { Text } from "@chakra-ui/layout";
+import GroupChatModal from "./GroupChatModal";
 
 const MyChats = () => {
   const [loggedUser, setLoggedUser] = useState();
@@ -35,6 +36,7 @@ const MyChats = () => {
       });
     }
   };
+
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
@@ -62,13 +64,15 @@ const MyChats = () => {
         alignItems="center"
       >
         My Chats
-        <Button
-          d="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModal>
+          <Button
+            d="flex"
+            fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModal>
       </Box>
       <Box
         d="flex"
@@ -94,9 +98,11 @@ const MyChats = () => {
                 key={chat._id}
               >
                 <Text>
-                  {!chat.isGroupChat
+                  {!chat.isGroupchat && chat.users
                     ? getSender(loggedUser, chat.users)
-                    : chat.chatName}
+                    : chat.chatName
+                    ? chat.chatName
+                    : "Group Chat"}
                 </Text>
               </Box>
             ))}
