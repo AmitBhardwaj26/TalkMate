@@ -90,9 +90,9 @@ const GroupChatModal = ({ children }) => {
         config
       );
 
-      setChats([data, ...chats]);
+      await setChats([data, ...chats]);
       // console.log(chats);
-      onClose();
+
       toast({
         title: "New Group Chat Created!",
         description: "Chat Created Successfully",
@@ -101,6 +101,8 @@ const GroupChatModal = ({ children }) => {
         isClosable: true,
         position: "bottom",
       });
+
+      onClose();
     } catch (error) {
       toast({
         title: "Error Occured!",
