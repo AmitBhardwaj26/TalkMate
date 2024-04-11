@@ -11,8 +11,8 @@ const ChatProvider = ({ children }) => {
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("userInfo"));
     setUser(user);
-    if (user) {
-      navigate("/chats");
+    if (!user) {
+      navigate("/");
     }
   }, [navigate]);
   return (
