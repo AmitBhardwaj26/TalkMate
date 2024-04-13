@@ -8,6 +8,8 @@ const colors = require("colors");
 
 const useRoutes = require("./routes/userRoute");
 const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
+
 const connectDB = require("./Config/db");
 
 const { notfound, errorHandler } = require("./middleware/errorMiddleware");
@@ -20,6 +22,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", useRoutes);
 app.use("/api/chat", chatRoutes);
+app.use("/api/message", messageRoutes);
 
 app.use(notfound);
 app.use(errorHandler);
@@ -37,4 +40,18 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, console.log(`Server is running on port ${PORT}`.yellow.bold));
+const server = cpp.listen(
+  PORT,
+  console.log(`Server is running on port ${PORT}`.yellow.bold)
+);
+
+const io = require("socket.io")(server, {
+  pingTimout: 60000,
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
+});
