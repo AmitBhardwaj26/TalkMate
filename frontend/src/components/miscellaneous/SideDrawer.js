@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
-  Tooltip,
   Text,
   Menu,
   MenuButton,
@@ -11,6 +10,7 @@ import {
   Link,
   MenuDivider,
 } from "@chakra-ui/react";
+import { Tooltip } from "@chakra-ui/tooltip";
 import {
   Drawer,
   DrawerBody,
@@ -32,6 +32,9 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import axios from "axios";
 import UserListItem from "../UserAvatar/UserListItem";
 import { Spinner } from "@chakra-ui/spinner";
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
+import { getSender } from "../../config/ChatLogic";
 
 const SideDrawer = () => {
   const [search, setSearch] = useState("");
@@ -39,8 +42,16 @@ const SideDrawer = () => {
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { user, setUser, selectedChat, setSelectedChat, chats, setChats } =
-    ChatState();
+  const {
+    user,
+    setUser,
+    selectedChat,
+    setSelectedChat,
+    chats,
+    setChats,
+    notification,
+    setNotification,
+  } = ChatState();
 
   const toast = useToast();
 
@@ -134,9 +145,30 @@ const SideDrawer = () => {
         </Text>
         <div>
           <Menu>
-            <MenuButton p={1}>
-              <BellIcon fontsize="2xl" m={1} />
+            <MenuButton padding={1}>
+              <NotificationBadge
+                count={notification ? notification.length : 0} // Add a conditional check here
+                effect={Effect.SCALE}
+              />
+              <BellIcon fontSize="2xl" margin={1} />
             </MenuButton>
+            <MenuList pl={2}>
+              {notification && !notification.length && "No New Messages"}
+              {notification &&
+                notification.map((notif) => (
+                  <MenuItem
+                    key={notif._id}
+                    onClick={() => {
+                      setSelectedChat(notif.chat);
+                      setNotification(notification.filter((n) => n !== notif));
+                    }}
+                  >
+                    {notif.chat.isGroupChat
+                      ? `New Message in ${notif.chat.chatName}`
+                      : `New Message from ${getSender(user, notif.chat.users)}`}
+                  </MenuItem>
+                ))}
+            </MenuList>
           </Menu>
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
