@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-   "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
+    "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Amit Bhardwaj",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "body-parser": "^1.20.2",
     "colors": "^1.4.0",
     "concurrently": "^8.2.2",
+    "dotenv": "^16.4.5",
     "env": "^0.0.2",
     "express": "^4.19.2",
     "express-async-handler": "^1.2.0",
