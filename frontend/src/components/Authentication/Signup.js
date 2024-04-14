@@ -110,7 +110,7 @@ const Signup = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      navigate("/login");
+      navigate("/chats");
       // history.push("/chats");
     } catch (err) {
       console.log(err);

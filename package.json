@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "backend": "nodemon backend/server.js",
-    "frontend": "cd frontend && npm start"
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "build":"npm install && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Amit Bhardwaj",
   "license": "ISC",

@@ -5,50 +5,61 @@ const chats = require("./data/data");
 const app = express();
 dotenv.config();
 const colors = require("colors");
-
-const useRoutes = require("./routes/userRoute");
+const path = require("path");
+const userRoutes = require("./routes/userRoute");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
+const { notfound, errorHandler } = require("./middleware/errorMiddleware");
 
 const connectDB = require("./Config/db");
 
-const { notfound, errorHandler } = require("./middleware/errorMiddleware");
+dotenv.config();
 connectDB();
 
-app.use(express.json());
-app.get("/", (req, res) => {
-  res.send("ApI is Running");
-});
+app.use(express.json()); // to accept json data
 
-app.use("/api/user", useRoutes);
+// app.get("/", (req, res) => {
+//   res.send("API Running!");
+// });
+
+app.use("/api/user", userRoutes);
 app.use("/api/chat", chatRoutes);
 app.use("/api/message", messageRoutes);
 
+// --------------------------deployment------------------------------
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+// --------------------------deployment------------------------------
+
+// Error Handling middlewares
 app.use(notfound);
 app.use(errorHandler);
 
-// app.get("/api/chat", (req, res) => {
-//   // console.log(chats);
-//   res.send(chats);
-// });
-
-// app.get("/api/chat/:id", (req, res) => {
-//   // console.log(req.params.id);
-//   const singleChat = chats.find((c) => c._id === req.params.id);
-//   res.send(singleChat);
-// });
-
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 
 const server = app.listen(
   PORT,
-  console.log(`Server is running on port ${PORT}`.yellow.bold)
+  console.log(`Server running on PORT ${PORT}...`.yellow.bold)
 );
 
 const io = require("socket.io")(server, {
-  pingTimout: 60000,
+  pingTimeout: 60000,
   cors: {
     origin: "http://localhost:3000",
+    // credentials: true,
   },
 });
 

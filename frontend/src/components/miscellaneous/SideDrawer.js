@@ -230,7 +230,6 @@ const SideDrawer = () => {
               </Box>
               {loadingChat && <Spinner ml="auto" d="flex" />}
             </DrawerBody>
-            <DrawerFooter>Footer</DrawerFooter>
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>

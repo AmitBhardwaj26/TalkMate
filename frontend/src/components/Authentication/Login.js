@@ -11,8 +11,9 @@ import { Stack, HStack, VStack } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 
-const Signup = () => {
+const Login = () => {
   const [email, SetEmail] = useState();
   const [password, SetPassword] = useState();
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,8 @@ const Signup = () => {
   const toast = useToast();
   const handleClick = () => setShow(!show);
   const navigate = useNavigate();
+
+  const { setUser } = ChatState();
 
   const submitHandler = async () => {
     setLoading(true);
@@ -59,9 +62,10 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      setUser(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
-      navigate("/signup");
+      navigate("/chats");
     } catch (error) {
       toast({
         title: "Invalid Credentials",
@@ -125,4 +129,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;
