@@ -16,7 +16,8 @@ import ProfileModal from "./ProfileModel";
 import { useToast } from "@chakra-ui/react";
 import "./styles.css";
 import io from "socket.io-client";
-import Lottie from "react-lottie";
+
+import Lottie from "lottie-react";
 import animationData from "../../animations/typing.json";
 
 import { FormControl } from "@chakra-ui/form-control";
