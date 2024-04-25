@@ -17,6 +17,7 @@ dotenv.config();
 connectDB();
 
 app.use(express.json()); // to accept json data
+app.use(express.urlencoded({ extended: true })); // allows us to access req.body
 
 // app.get("/", (req, res) => {
 //   res.send("API Running!");
@@ -64,7 +65,7 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("Connected to socket.io");
+  // console.log("Connected to socket.io");
   socket.on("setup", (userData) => {
     socket.join(userData._id);
     socket.emit("connected");

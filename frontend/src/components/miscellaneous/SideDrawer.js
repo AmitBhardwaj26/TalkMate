@@ -141,7 +141,7 @@ const SideDrawer = () => {
           </Button>
         </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
-          Talk-A-Tive
+          TalkMate
         </Text>
         <div>
           <Menu>
@@ -185,14 +185,7 @@ const SideDrawer = () => {
               </ProfileModel>
 
               <MenuDivider />
-              <MenuItem>
-                <Link to="/chats">Chats</Link>
-              </MenuItem>
-              <MenuDivider />
-              <MenuItem>
-                <Link to="/settings">Settings</Link>
-              </MenuItem>
-              <MenuDivider />
+
               <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
@@ -205,15 +198,17 @@ const SideDrawer = () => {
             <DrawerCloseButton />
             <DrawerHeader>Search Users</DrawerHeader>
             <DrawerBody>
-              <Box display="flex" pb={2}>
+              <Box display="flex" pb={0} width="91%" border="solid">
                 <input
                   type="text"
                   placeholder="Search by name or email"
-                  mr={2}
+                  mr={1}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <Button onClick={handleSearch}>Go</Button>
+                <Button ml={1} onClick={handleSearch}>
+                  Go
+                </Button>
               </Box>
               <Box>
                 {loading ? (
